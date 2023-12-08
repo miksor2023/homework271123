@@ -6,12 +6,16 @@ public class Employee {
     private final String firstName;
     private final String lastName;
 
+    private double salary;
+    private int department;
 
-    public Employee(String firatName, String lastName) {
+
+    public Employee(String firatName, String lastName, double salary, int department) {
         this.firstName = firatName;
         this.lastName = lastName;
+        this.salary = salary;
+        this.department = department;
     }
-
     public String getFirstName() {
         return firstName;
     }
@@ -20,12 +24,24 @@ public class Employee {
         return lastName;
     }
 
+    public double getSalary() {
+        return salary;
+    }
+    public int getDepartment() {
+        return department;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "firstName= " + firstName + '\'' +
+                ", lastName= " + lastName + '\'' +
+                ", salary= " + salary + '\'' +
+                ", department= " + department + '\'' +
                 '}';
     }
 

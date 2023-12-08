@@ -16,11 +16,11 @@ public class EmployeeService {
         this.employeeMap = new HashMap<>();
     }
 
-    private static int maxEmployeeQty = 5;
+    private static int maxEmployeeQty = 10;
 
-    public Employee addEmployee(String firstName, String lastName) throws EmployeeAlreadyAddedException, EmployeeStorageIsFullException{
-        Employee employee = new Employee(firstName, lastName);
-        if (employeeMap.size() < maxEmployeeQty && employeeMap.containsValue(employee) == false) {
+    public Employee addEmployee(String firstName, String lastName, double salary, int department) throws EmployeeAlreadyAddedException, EmployeeStorageIsFullException{
+        Employee employee = new Employee(firstName, lastName, salary, department);
+        if (employeeMap.size() =< maxEmployeeQty && employeeMap.containsValue(employee) == false) {
             employeeMap.put(employee.getFirstName() + employee.getLastName(), employee);
             return employee;
         } else if (employeeMap.containsValue(employee) == true){
@@ -30,9 +30,10 @@ public class EmployeeService {
         }
     }
     public Employee removeEmployee(String firstName, String lastName) throws EmployeeNotFoundException{
-        Employee employee = new Employee(firstName, lastName);
-        if (employeeMap.containsValue(employee)) {
-            employeeMap.remove(employee.getFirstName() + employee.getLastName(), employee);
+        String key = firstName + lastName;
+        if (employeeMap.containsKey(key)) {
+            Employee employee = employeeMap.get(key);
+            employeeMap.remove(key);
             return employee;
         } else {
             throw new EmployeeNotFoundException("Сотрудник с таким именем не найден");
@@ -40,9 +41,9 @@ public class EmployeeService {
     }
 
     public Employee findEmployee (String firstName, String lastName) throws EmployeeNotFoundException{
-        Employee employee = new Employee(firstName, lastName);
-        if (employeeMap.containsValue(employee)) {
-            return employee;
+        String key = firstName + lastName;
+        if (employeeMap.containsKey(key)) {
+            return employeeMap.get(key);
         } else {
             throw new EmployeeNotFoundException("Сотрудник с таким именем не найден");
         }
@@ -53,11 +54,16 @@ public class EmployeeService {
 
     //тестовый метод для заполнения списка записями
     public Map<String,Employee> loadEmployeeList() {
-        employeeMap.put("IvanIvanov", new Employee("Ivan", "Ivanov"));
-        employeeMap.put("IvanSidorov", new Employee("Ivan", "Sidorov"));
-        employeeMap.put("IvanPetrov", new Employee("Ivan", "Petrov"));
-        employeeMap.put("IvanVetrov", new Employee("Ivan", "Vetrov"));
-        employeeMap.put("IvanShpetrov", new Employee("Ivan", "Shpetrov"));
+        addEmployee("Ivan", "Ivanov", 10000, 1));
+        addEmployee("Ivan", "Sidorov", 11000, 1));
+        addEmployee("Ivan", "Petrov", 12000,1));
+        addEmployee("Petr", "Vetrov", 20000,2));
+        addEmployee("Petr", "Shpetrov", 21000, 2));
+        addEmployee("Petr", "Ivanov", 22000, 2));
+        addEmployee("Vasiliy", "Sidorov", 30000, 3));
+        addEmployee("Vasiliy", "Petrov", 31000,3));
+        addEmployee("Evgeniy", "Vetrov", 40000,4));
+        addEmployee("Evgeniy", "Shpetrov", 41000, 4));
         return employeeMap;
     }
 }

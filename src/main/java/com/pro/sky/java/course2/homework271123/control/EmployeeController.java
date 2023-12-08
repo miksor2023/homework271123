@@ -17,36 +17,47 @@ import java.util.Map;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-    };
+    }
+
+    ;
+
     @GetMapping
     public String sayWelcome() {
         return "Добро пожаловать в книгу учёта сотрудников";
     }
+
     @GetMapping("/add")
-    public Employee addEmployee (@RequestParam(name = "firstName", required = true) String firstName,
-                                 @RequestParam(name = "lastName", required = true) String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
+    public Employee addEmployee(@RequestParam(name = "firstName", required = true) String firstName,
+                                @RequestParam(name = "lastName", required = true) String lastName,
+                                @RequestParam(name = "salary", required = true) double salary,
+                                @RequestParam(name = "department", required = true) int department{
+
+        return employeeService.addEmployee(firstName, lastName, salary, department);
     }
 
     @GetMapping("/find")
-    public Employee findEmployee (@RequestParam(name = "firstName", required = true) String firstName,
-                                  @RequestParam(name = "lastName", required = true) String lastName) {
+    public Employee findEmployee(@RequestParam(name = "firstName", required = true) String firstName,
+                                 @RequestParam(name = "lastName", required = true) String lastName) {
         return employeeService.findEmployee(firstName, lastName);
     }
+
     @GetMapping("/remove")
-    public Employee removeEmployee (@RequestParam(name = "firstName", required = true) String firstName,
-                                    @RequestParam(name = "lastName", required = true) String lastName) {
+    public Employee removeEmployee(@RequestParam(name = "firstName", required = true) String firstName,
+                                   @RequestParam(name = "lastName", required = true) String lastName) {
 
         return employeeService.removeEmployee(firstName, lastName);
     }
+
     @GetMapping("/print")
     public Collection<Employee> printEmployeeList() {
         return employeeService.returnEmployeeList();
     }
+
     @GetMapping("/load")
-    public Map<String,Employee> loadEmployeeList() {
+    public Map<String, Employee> loadEmployeeList() {
         return employeeService.loadEmployeeList();
     }
 }
