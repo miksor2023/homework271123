@@ -37,12 +37,10 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "firstName= " + firstName + '\'' +
-                ", lastName= " + lastName + '\'' +
-                ", salary= " + salary + '\'' +
-                ", department= " + department + '\'' +
-                '}';
+        return  "имя: " + firstName +
+                ", фамилия: " + lastName +
+                ", зарплата: " + salary +
+                ", отдел: " + department + "<br />";
     }
 
     @Override

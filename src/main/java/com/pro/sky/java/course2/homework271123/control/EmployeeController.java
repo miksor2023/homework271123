@@ -30,34 +30,34 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public Employee addEmployee(@RequestParam(name = "firstName", required = true) String firstName,
+    public String addEmployee(@RequestParam(name = "firstName", required = true) String firstName,
                                 @RequestParam(name = "lastName", required = true) String lastName,
                                 @RequestParam(name = "salary", required = true) double salary,
-                                @RequestParam(name = "department", required = true) int department{
-
+                                @RequestParam(name = "department", required = true) int department) {
         return employeeService.addEmployee(firstName, lastName, salary, department);
     }
 
     @GetMapping("/find")
-    public Employee findEmployee(@RequestParam(name = "firstName", required = true) String firstName,
+    public String findEmployee(@RequestParam(name = "firstName", required = true) String firstName,
                                  @RequestParam(name = "lastName", required = true) String lastName) {
         return employeeService.findEmployee(firstName, lastName);
     }
 
     @GetMapping("/remove")
-    public Employee removeEmployee(@RequestParam(name = "firstName", required = true) String firstName,
+    public String removeEmployee(@RequestParam(name = "firstName", required = true) String firstName,
                                    @RequestParam(name = "lastName", required = true) String lastName) {
 
         return employeeService.removeEmployee(firstName, lastName);
     }
 
     @GetMapping("/print")
-    public Collection<Employee> printEmployeeList() {
-        return employeeService.returnEmployeeList();
+    public String printEmployeeList() {
+        return employeeService.returnAllEmployeeListByString();
     }
 
     @GetMapping("/load")
-    public Map<String, Employee> loadEmployeeList() {
-        return employeeService.loadEmployeeList();
+    public String loadEmployeeList() {
+        employeeService.loadEmployeeList();
+        return employeeService.returnAllEmployeeListByString();
     }
 }
