@@ -7,10 +7,10 @@ public class Employee {
     private final String lastName;
 
     private double salary;
-    private int department;
+    private Integer department;
 
 
-    public Employee(String firatName, String lastName, double salary, int department) {
+    public Employee(String firatName, String lastName, double salary, Integer department) {
         this.firstName = firatName;
         this.lastName = lastName;
         this.salary = salary;
@@ -27,7 +27,7 @@ public class Employee {
     public double getSalary() {
         return salary;
     }
-    public int getDepartment() {
+    public Integer getDepartment() {
         return department;
     }
 

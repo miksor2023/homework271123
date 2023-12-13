@@ -15,12 +15,12 @@ public class EmployeeService {
     private static int maxEmployeeQty = 10;
     //метод добавляет сотрудника
 
-    public String addEmployee(String firstName, String lastName, double salary, int department) throws EmployeeAlreadyAddedException, EmployeeStorageIsFullException {
+    public Employee addEmployee(String firstName, String lastName, double salary, int department) throws EmployeeAlreadyAddedException, EmployeeStorageIsFullException {
         Employee employee = new Employee(firstName, lastName, salary, department);
         String key = firstName + lastName;
         if (employeeMap.size() < maxEmployeeQty && employeeMap.containsKey(key) == false) {
             employeeMap.put(key, employee);
-            return "Запись о сотруднике  " + firstName + " " + lastName + " ДОБАВЛЕНА";
+            return employee;
         } else if (employeeMap.containsKey(key) == true) {
             throw new EmployeeAlreadyAddedException("Сотрудник с таким именем уже существует");
         } else {
@@ -29,51 +29,32 @@ public class EmployeeService {
     }
     //метод удаляет сотрудника по имени/фамилии
 
-    public String removeEmployee(String firstName, String lastName) throws EmployeeNotFoundException {
+    public Employee removeEmployee(String firstName, String lastName) throws EmployeeNotFoundException {
         String key = firstName + lastName;
         if (employeeMap.containsKey(key)) {
             Employee employee = employeeMap.get(key);
             employeeMap.remove(key);
-            return "Запись о сотруднике  " + firstName + " " + lastName + " УДАЛЕНА";
+            return employee;
         } else {
             throw new EmployeeNotFoundException("Сотрудник с таким именем не найден");
         }
     }
     //метод ищет сотрудника по имени/фамилии
-    public String findEmployee(String firstName, String lastName) throws EmployeeNotFoundException {
+    public Employee findEmployee(String firstName, String lastName) throws EmployeeNotFoundException {
         String key = firstName + lastName;
         if (employeeMap.containsKey(key)) {
-            return employeeMap.get(key).toString();
+            return employeeMap.get(key);
         } else {
             throw new EmployeeNotFoundException("Сотрудник с таким именем не найден");
         }
     }
 
     //метод возвращает строку со списком всех сотрудников
-    public String returnAllEmployeeListByString() {
-        StringJoiner result = new StringJoiner("");
-        result.add("Список всех сотрудников: <br />");
-        Map<Integer, List<Employee>> grouppedByDept = employeeMap.values().stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment));
-        grouppedByDept.keySet().stream()
-                .forEach(key -> result.add("Отдел " + key + "<br />"
-                        + buidStringFromEmployeeList(grouppedByDept.get(key))));
-        return result.toString();
+    public Collection<Employee> returnAllEmployeeList() {
+        return employeeMap.values();
     }
-
-    //служебный метод, что-то вроде toString() для списка сотрудников отдельного отдела (выводится без номера отдела)
-    public String buidStringFromEmployeeList(List<Employee> employees) {
-        StringJoiner result = new StringJoiner("");
-        employees.stream()
-                .forEach(employee -> result.add("Имя: " + employee.getFirstName()
-                        + " " + employee.getLastName()
-                        + ", зарплата: " + employee.getSalary() + "<br />"));
-        return result.toString();
-    }
-
-
     //тестовый метод для заполнения списка записями
-    public Map<String, Employee> loadEmployeeList() {
+    public void loadEmployeeList() {
         addEmployee("Ivan", "Ivanov", 10000, 1);
         addEmployee("Ivan", "Sidorov", 11000, 1);
         addEmployee("Ivan", "Petrov", 12000, 1);
@@ -84,6 +65,5 @@ public class EmployeeService {
         addEmployee("Vasiliy", "Petrov", 31000, 3);
         addEmployee("Evgeniy", "Vetrov", 40000, 4);
         addEmployee("Evgeniy", "Shpetrov", 41000, 4);
-        return employeeMap;
     }
 }
